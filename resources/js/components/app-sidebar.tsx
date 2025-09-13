@@ -16,7 +16,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Movies',
-        href: '/movies',
+        href: '/data-movie',
         icon: Film,
     },
 ];

@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Movie;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,9 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::create([
+            'name' => env("USER_NAME", 'admin'),
+            'email' => env('USER_EMAIL','admin@admin.com'),
+            'password' => Hash::make(env('USER_PASSWORD','admin123')),
         ]);
-    }
+
+        Movie::factory()->count(100)->create();
+    } 
 }

@@ -40,3 +40,26 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Link {
+    url: string;
+    label: string;
+    active: boolean;
+}
+export interface Meta {
+    current_page: number;
+    from: number;
+    list_page: number;
+    links: Link[];
+    path: string;
+    per_page: number;
+    to: number;
+    total: number;
+}
+export interface Movie {
+    id: number;
+    title: string;
+    genre: string;
+    release_date: string;
+    duration: string;
+}
