@@ -63,4 +63,15 @@ export interface Movie {
     release_date: string;
     duration: string;
     description: string;
+    poster_url: string | null; // dari backend = URL
+}
+
+// khusus form data
+export interface MovieFormData {
+    title: string;
+    genre: string;
+    release_date: string;
+    duration: string;
+    description: string;
+    poster: File | null; // untuk upload file
 }

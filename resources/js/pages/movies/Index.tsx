@@ -6,7 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { handleChangePerPage } from '@/lib/utils';
 import { BreadcrumbItem, Movie } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
-import { RefreshCcw, Search } from 'lucide-react';
+import { RefreshCcw, Search, Trash } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import FormMovie from './components/FormMovie';
 
@@ -49,7 +49,7 @@ const Index = () => {
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <div className="flex flex-2 items-center justify-between bg-white">
+                <div className="flex flex-2 items-center justify-between">
                     <form onSubmit={searchSubmit} className="flex gap-x-2">
                         <Input
                             type="text"
@@ -73,6 +73,7 @@ const Index = () => {
                     <TableRow>
                         <TableHead className="w-10 text-center">No</TableHead>
                         <TableHead>Title</TableHead>
+                        <TableHead>Thumbnail</TableHead>
                         <TableHead>Category</TableHead>
                         <TableHead>Duration</TableHead>
                         <TableHead>Release Date</TableHead>
@@ -83,14 +84,30 @@ const Index = () => {
                     {movies.data.map((movie: Movie, index: number) => (
                         <TableRow key={movie.id}>
                             <TableCell className="text-center">{(meta.from ?? 1) + index}</TableCell>
+                            <TableCell className="text-center">
+                                <img src={movie.poster_url || ''} alt="Poster" width={20} />
+                            </TableCell>
                             <TableCell className="text-left">{movie.title}</TableCell>
                             <TableCell className="text-left">{movie.genre}</TableCell>
                             <TableCell className="text-left">{movie.duration}</TableCell>
                             <TableCell className="text-left">{movie.release_date}</TableCell>
-                            <TableCell className="text-center">
+                            <TableCell className="flex justify-center gap-x-1 text-center">
                                 <div>
                                     <FormMovie movie={movie} />
                                 </div>
+                                <Button
+                                    variant={'destructive'}
+                                    size={'icon'}
+                                    onClick={() => {
+                                        if (confirm('Yakin ingin menghapus data ini?')) {
+                                            router.delete(`/data-movies/${movie.id}`, {
+                                                preserveScroll: true,
+                                            });
+                                        }
+                                    }}
+                                >
+                                    <Trash size={16} />
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}

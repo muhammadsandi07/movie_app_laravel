@@ -26,8 +26,12 @@ class MovieStoreRequest extends FormRequest
             'genre' =>'required|string|max:100',
             'release_date' =>'required|date',
             'duration' =>'required|string|max:50',
-            'description' =>'required|string|max:500'
+            'description' =>'required|string|max:500',
+             'poster' => $this->isMethod('post')
+                    ? 'required|image|mimes:jpg,png,jpeg|max:2048'
+                    : 'sometimes|nullable|image|mimes:jpg,png,jpeg|max:2048',
         ];
+
     }
 
     public function messages():array

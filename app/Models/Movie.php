@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Movie extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieFactory> */
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $fillable = [
         'title',
         'description',
@@ -17,13 +18,9 @@ class Movie extends Model
         'director',
         'release_date',
         'poster_url',
-        'trailer_url',
         'rating',
-        'is_active',        
+        'is_active',
     ];
 
-    public static function nomorPasien(){
-        
-
-    }
+    protected $dates = ['release_date', 'deleted_at'];
 }
