@@ -9,6 +9,7 @@ use Cloudinary\Cloudinary;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary as FacadesCloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Cloudinary\Api\Upload\UploadApi;
 
 use Inertia\Inertia;
 
@@ -54,13 +55,9 @@ class MovieController extends Controller
         }
 
         try {
-            // Gunakan Cloudinary client langsung (lebih konsisten)
             $cloudinary = new \Cloudinary\Cloudinary(env('CLOUDINARY_URL'));
-
-            // uploadApi()->upload biasanya mengembalikan array (secure_url dll)
             $result = $cloudinary->uploadApi()->upload($filePath, ['folder' => 'movies']);
 
-            // Pastikan result bukan null dan ambil secure_url
             if (is_array($result) && isset($result['secure_url'])) {
                 $data['poster_url'] = $result['secure_url'];
             } elseif (is_object($result) && method_exists($result, 'getArrayCopy')) {
