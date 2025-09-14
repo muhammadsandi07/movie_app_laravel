@@ -62,4 +62,5 @@ export interface Movie {
     genre: string;
     release_date: string;
     duration: string;
+    description: string;
 }

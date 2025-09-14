@@ -12,8 +12,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    Route::prefix('data-movie')->controller(MovieController::class)->group(function(){
+    Route::prefix('data-movies')->controller(MovieController::class)->group(function(){
         Route::get('/', 'index');
+        Route::post('/', 'store');
     });
 });
 

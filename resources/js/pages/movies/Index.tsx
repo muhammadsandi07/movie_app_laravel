@@ -8,14 +8,15 @@ import { BreadcrumbItem, Movie } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import { RefreshCcw, Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import FormMovie from './components/FormMovie';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Data Movie',
-        href: '/data-movie',
+        href: '/data-movies',
     },
 ];
-const index = () => {
+const Index = () => {
     const { movies }: any = usePage().props;
     const meta = movies.meta;
     const path = meta.path;
@@ -30,7 +31,7 @@ const index = () => {
     };
     const clearSearch = () => {
         setSearch('');
-        router.get(path, {  }, { preserveState: true, replace: true });
+        router.get(path, {}, { preserveState: true, replace: true });
     };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -48,20 +49,23 @@ const index = () => {
                     <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
-                <div className="flex gap-x-2">
-                    <Input
-                        type="text"
-                        placeholder="Cari..."
-                        className="max-w-lg flex-shrink"
-                        onChange={(e) => setSearch(e.target.value)}
-                        value={search}
-                    />
-                    <Button size={'icon'} variant={'outline'} onClick={searchSubmit}>
-                        <Search size={16} />
-                    </Button>
-                    <Button size={'icon'} variant={'outline'} onClick={clearSearch}>
-                        <RefreshCcw size={16} />
-                    </Button>
+                <div className="flex flex-2 items-center justify-between bg-white">
+                    <form onSubmit={searchSubmit} className="flex gap-x-2">
+                        <Input
+                            type="text"
+                            placeholder="Cari..."
+                            className="max-w-lg flex-shrink"
+                            onChange={(e) => setSearch(e.target.value)}
+                            value={search}
+                        />
+                        <Button size={'icon'} variant={'outline'}>
+                            <Search size={16} />
+                        </Button>
+                        <Button size={'icon'} variant={'outline'} onClick={clearSearch}>
+                            <RefreshCcw size={16} />
+                        </Button>
+                    </form>
+                    <FormMovie />
                 </div>
             </div>
             <Table>
@@ -77,13 +81,17 @@ const index = () => {
                 </TableHeader>
                 <TableBody>
                     {movies.data.map((movie: Movie, index: number) => (
-                        <TableRow key={index}>
-                            <TableCell className="text-center">{index + 1}</TableCell>
+                        <TableRow key={movie.id}>
+                            <TableCell className="text-center">{(meta.from ?? 1) + index}</TableCell>
                             <TableCell className="text-left">{movie.title}</TableCell>
                             <TableCell className="text-left">{movie.genre}</TableCell>
                             <TableCell className="text-left">{movie.duration}</TableCell>
                             <TableCell className="text-left">{movie.release_date}</TableCell>
-                            <TableCell className="text-center"></TableCell>
+                            <TableCell className="text-center">
+                                <div>
+                                    <FormMovie movie={movie} />
+                                </div>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -95,4 +103,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default Index;
